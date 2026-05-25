@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { Search, Upload, Download, Edit, Save, AlertTriangle, CheckCircle, RefreshCw, Layers, Plus, Trash2, Database, ClipboardList, Printer } from 'lucide-react';
 import InventoryTransactions from './InventoryTransactions';
 import ReportPreview from './ReportPreview';
 
 export default function Inventory() {
   const [activeTab, setActiveTab] = useState('monthly'); // 'monthly' | 'master' | 'transactions'
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
 
   const getCurrentThaiYearMonth = () => {
     const d = new Date();
@@ -67,7 +68,7 @@ export default function Inventory() {
   const [reportCategories, setReportCategories] = useState(['เวชภัณฑ์มิใช่ยา-วัสดุการแพทย์']);
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/settings`).then(res => res.json()).then(data => {
+    apiFetch(`/api/settings`).then(res => res.json()).then(data => {
       if (data.report_categories && Array.isArray(data.report_categories)) {
         setReportCategories(data.report_categories);
       }
@@ -100,7 +101,7 @@ export default function Inventory() {
   const fetchMonthlyInventory = async () => {
     setMonthlyLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/items?year=${selectedYear}&month=${selectedMonth}`);
+      const res = await apiFetch(`/api/inventory/items?year=${selectedYear}&month=${selectedMonth}`);
       const data = await res.json();
       setMonthlyItems(data);
     } catch (err) {
@@ -112,7 +113,7 @@ export default function Inventory() {
 
   const fetchYears = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/years`);
+      const res = await apiFetch(`/api/inventory/years`);
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
         const strYears = data.map(String);
@@ -149,7 +150,7 @@ export default function Inventory() {
       return;
     }
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/update-item`, {
+      const res = await apiFetch(`/api/inventory/update-item`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -185,14 +186,14 @@ export default function Inventory() {
   };
 
   const handleExportExcel = () => {
-    window.open(`${API_BASE}/api/inventory/export?year=${selectedYear}&month=${selectedMonth}`, '_blank');
+    window.open(`/api/inventory/export?year=${selectedYear}&month=${selectedMonth}`, '_blank');
   };
 
   // === MASTER ITEM CATALOG FUNCTIONS ===
   const fetchMasterItems = async () => {
     setMasterLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/master-items`);
+      const res = await apiFetch(`/api/inventory/master-items`);
       const data = await res.json();
       setMasterItems(data);
     } catch (err) {
@@ -216,7 +217,7 @@ export default function Inventory() {
       return;
     }
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/master-items`, {
+      const res = await apiFetch(`/api/inventory/master-items`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(masterEditForm)
@@ -243,7 +244,7 @@ export default function Inventory() {
     }
 
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/master-items/${id}`, {
+      const res = await apiFetch(`/api/inventory/master-items/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ editor_name: editor_name.trim() })
@@ -267,7 +268,7 @@ export default function Inventory() {
     }
 
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/master-items/${id}/restore`, {
+      const res = await apiFetch(`/api/inventory/master-items/${id}/restore`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ editor_name: editor_name.trim() })

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { apiFetch } from '../utils/api';
 import { FileText, Plus, ArrowLeft, Printer, Search, PlusCircle, Trash2 } from 'lucide-react';
 import { useReactToPrint } from 'react-to-print';
 
@@ -20,7 +21,7 @@ export default function Requisition() {
   const [reqRequisitioner, setReqRequisitioner] = useState('');
   const [selectedItems, setSelectedItems] = useState([]); // { item_id, item_name, unit, qty }
 
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
   const printRef = useRef();
 
   useEffect(() => {
@@ -31,7 +32,7 @@ export default function Requisition() {
 
   const fetchRequisitions = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/requisitions`);
+      const res = await apiFetch(`/api/requisitions`);
       const data = await res.json();
       setRequisitions(data);
     } catch (err) {
@@ -41,7 +42,7 @@ export default function Requisition() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/settings`);
+      const res = await apiFetch(`/api/settings`);
       const data = await res.json();
       setSettings(data);
     } catch (err) {
@@ -51,7 +52,7 @@ export default function Requisition() {
 
   const fetchMasterItems = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/master-items`);
+      const res = await apiFetch(`/api/inventory/master-items`);
       const data = await res.json();
       setItems(data);
     } catch (err) {
@@ -62,7 +63,7 @@ export default function Requisition() {
   const handleCreateNew = async () => {
     // Fetch next number
     try {
-      const res = await fetch(`${API_BASE}/api/requisitions/next-number`);
+      const res = await apiFetch(`/api/requisitions/next-number`);
       const data = await res.json();
       setReqNumber(data.req_number || '');
     } catch (err) {
@@ -145,7 +146,7 @@ export default function Requisition() {
         transaction_ids: transactionIds
       };
 
-      const res = await fetch(`${API_BASE}/api/requisitions`, {
+      const res = await apiFetch(`/api/requisitions`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -271,7 +272,7 @@ export default function Requisition() {
               style={{ backgroundColor: '#10b981', color: '#fff' }}
               onClick={async () => {
                 try {
-                  const res = await fetch(`${API_BASE}/api/requisitions/unbilled`);
+                  const res = await apiFetch(`/api/requisitions/unbilled`);
                   const data = await res.json();
                   if (!data || data.length === 0) {
                     alert('ไม่มีรายการจ่ายออกที่ค้างอยู่ (ทุกรายการถูกนำไปทำใบเบิกหมดแล้ว)');

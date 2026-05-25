@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { createPortal } from 'react-dom';
 import { Printer, X, DownloadCloud } from 'lucide-react';
 
 const ReportPreview = ({ items, month, year, onClose, onExport }) => {
   const [settings, setSettings] = useState({});
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/settings`)
+    apiFetch(`/api/settings`)
       .then(res => res.json())
       .then(data => setSettings(data))
       .catch(err => console.error(err));

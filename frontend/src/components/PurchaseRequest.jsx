@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { FileText, Printer, Plus, Trash2, Download, Save, ArrowLeft, Eye } from 'lucide-react';
 
 export default function PurchaseRequest() {
   const currentFiscalYear = new Date().getFullYear() + 543 + (new Date().getMonth() >= 9 ? 1 : 0);
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
 
   const [view, setView] = useState('list'); // 'list', 'create', 'print'
   const [requests, setRequests] = useState([]);
@@ -31,7 +32,7 @@ export default function PurchaseRequest() {
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/purchase_requests`);
+      const res = await apiFetch(`/api/purchase_requests`);
       const data = await res.json();
       setRequests(data || []);
     } catch (err) {
@@ -43,7 +44,7 @@ export default function PurchaseRequest() {
 
   const fetchMasterItems = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/master-items`);
+      const res = await apiFetch(`/api/inventory/master-items`);
       const data = await res.json();
       setMasterItems(data || []);
     } catch (err) {
@@ -54,7 +55,7 @@ export default function PurchaseRequest() {
   const loadFromPlan = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/procurement/plan?year=${selectedYear}`);
+      const res = await apiFetch(`/api/procurement/plan?year=${selectedYear}`);
       const json = await res.json();
       const planItems = json.items || [];
       
@@ -119,7 +120,7 @@ export default function PurchaseRequest() {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/purchase_requests`, {
+      const res = await apiFetch(`/api/purchase_requests`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -150,7 +151,7 @@ export default function PurchaseRequest() {
   const handleDelete = async (id) => {
     if (!window.confirm("คุณต้องการลบประวัติใบขอซื้อนี้ใช่หรือไม่?")) return;
     try {
-      await fetch(`${API_BASE}/api/purchase_requests/${id}`, { method: 'DELETE' });
+      await apiFetch(`/api/purchase_requests/${id}`, { method: 'DELETE' });
       fetchRequests();
     } catch (err) {
       console.error(err);
@@ -159,7 +160,7 @@ export default function PurchaseRequest() {
 
   const handlePrint = async (id) => {
     try {
-      const res = await fetch(`${API_BASE}/api/purchase_requests/${id}`);
+      const res = await apiFetch(`/api/purchase_requests/${id}`);
       const data = await res.json();
       setPrintData({ ...data, is_preview: false });
       setView('print');

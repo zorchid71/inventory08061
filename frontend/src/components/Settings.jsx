@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { Settings as SettingsIcon, Server, Database, User, Key, Eye, EyeOff, Save, CheckCircle, AlertCircle, RefreshCw, Upload } from 'lucide-react';
 
 export default function Settings() {
@@ -24,13 +25,13 @@ export default function Settings() {
   const [monthlyDragActive, setMonthlyDragActive] = useState(false);
   const [restoreUploading, setRestoreUploading] = useState(false);
 
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
 
   // Load current settings from backend
   useEffect(() => {
     async function loadSettings() {
       try {
-        const res = await fetch(`${API_BASE}/api/settings`);
+        const res = await apiFetch(`/api/settings`);
         const json = await res.json();
         setForm(json);
         // If it was already connected, maybe auto-verify? Not strictly necessary.
@@ -46,7 +47,7 @@ export default function Settings() {
     setLoading(true);
     setTestResult(null);
     try {
-      const res = await fetch(`${API_BASE}/api/settings/test`, {
+      const res = await apiFetch(`/api/settings/test`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
@@ -68,7 +69,7 @@ export default function Settings() {
   };
 
   const handleBackup = () => {
-    window.location.href = `${API_BASE}/api/settings/backup`;
+    window.location.href = `/api/settings/backup`;
   };
 
   const handleRestore = async (e) => {
@@ -85,7 +86,7 @@ export default function Settings() {
     formData.append('db_file', file);
 
     try {
-      const res = await fetch(`${API_BASE}/api/settings/restore`, {
+      const res = await apiFetch(`/api/settings/restore`, {
         method: 'POST',
         body: formData
       });
@@ -109,7 +110,7 @@ export default function Settings() {
     setLoading(true);
     setSaveStatus(null);
     try {
-      const res = await fetch(`${API_BASE}/api/settings/save`, {
+      const res = await apiFetch(`/api/settings/save`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form)
@@ -137,7 +138,7 @@ export default function Settings() {
     setSaveStatus(null);
     setTestResult(null);
     try {
-      const res = await fetch(`${API_BASE}/api/settings/disconnect`, {
+      const res = await apiFetch(`/api/settings/disconnect`, {
         method: 'POST'
       });
       const json = await res.json();
@@ -165,7 +166,7 @@ export default function Settings() {
     setLoading(true);
     setSaveStatus(null);
     try {
-      const res = await fetch(`${API_BASE}/api/settings/clear-data`, {
+      const res = await apiFetch(`/api/settings/clear-data`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ clearMasterItems: confirm2 })
@@ -191,7 +192,7 @@ export default function Settings() {
     formData.append('file', file);
 
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/import`, {
+      const res = await apiFetch(`/api/inventory/import`, {
         method: 'POST',
         body: formData
       });

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { PackagePlus, PackageMinus, History, Search, Calendar, Save } from 'lucide-react';
 
 const InventoryTransactions = () => {
@@ -27,7 +28,7 @@ const InventoryTransactions = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('/api/settings');
+      const res = await apiFetch('/api/settings');
       const data = await res.json();
       if (data.departments) {
         const depts = data.departments.split(/[\n,]+/).map(d => d.trim()).filter(d => d);
@@ -40,7 +41,7 @@ const InventoryTransactions = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch('/api/inventory/master-items');
+      const res = await apiFetch('/api/inventory/master-items');
       const data = await res.json();
       setItems(data);
     } catch (err) {
@@ -50,7 +51,7 @@ const InventoryTransactions = () => {
 
   const fetchTransactions = async () => {
     try {
-      const res = await fetch('/api/inventory/transactions?limit=50');
+      const res = await apiFetch('/api/inventory/transactions?limit=50');
       const data = await res.json();
       setTransactions(data);
     } catch (err) {
@@ -161,7 +162,7 @@ const InventoryTransactions = () => {
 
     // We use Promise.allSettled to send all POSTs concurrently
     const promises = cart.map(item => 
-      fetch('/api/inventory/transactions', {
+      apiFetch('/api/inventory/transactions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

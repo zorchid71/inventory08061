@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { Calendar, FileText, Printer, BarChart2 } from 'lucide-react';
 
 export default function Reports() {
@@ -9,7 +10,7 @@ export default function Reports() {
   const [reportData, setReportData] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
 
   const generateMonthsForYear = (fiscalYearStr) => {
     const fy = parseInt(fiscalYearStr) || new Date().getFullYear() + 543;
@@ -34,7 +35,7 @@ export default function Reports() {
   useEffect(() => {
     const fetchYears = async () => {
       try {
-        const res = await fetch(`${API_BASE}/api/inventory/years`);
+        const res = await apiFetch(`/api/inventory/years`);
         const data = await res.json();
         if (Array.isArray(data) && data.length > 0) {
           const strYears = data.map(String);
@@ -58,11 +59,11 @@ export default function Reports() {
     const fetchReport = async () => {
       setLoading(true);
       try {
-        let url = `${API_BASE}/api/reports/gl?year=${selectedYear}`;
+        let url = `/api/reports/gl?year=${selectedYear}`;
         if (reportType === 'monthly' && selectedMonth) {
           url += `&month=${selectedMonth}`;
         }
-        const res = await fetch(url);
+        const res = await apiFetch(url);
         const data = await res.json();
         setReportData(data);
       } catch (err) {

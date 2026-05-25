@@ -8,11 +8,29 @@ import ProcurementPlan from './components/ProcurementPlan';
 import PurchaseRequest from './components/PurchaseRequest';
 import Requisition from './components/Requisition';
 import Report301 from './components/Report301';
-import { Package, FileBarChart, Calculator, FileSignature, ChevronDown, ChevronRight, Boxes, FileText } from 'lucide-react';
+import Login from './components/Login';
+import { Package, FileBarChart, Calculator, FileSignature, ChevronDown, ChevronRight, Boxes, FileText, LogOut } from 'lucide-react';
 
 export default function App() {
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [activeTab, setActiveTab] = useState('dashboard');
   const [isInventoryMenuOpen, setIsInventoryMenuOpen] = useState(false);
+
+  // Listen for auth errors to auto-logout
+  React.useEffect(() => {
+    const handleAuthError = () => setToken('');
+    window.addEventListener('auth-error', handleAuthError);
+    return () => window.removeEventListener('auth-error', handleAuthError);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setToken('');
+  };
+
+  if (!token) {
+    return <Login setToken={setToken} />;
+  }
 
   const renderContent = () => {
     switch (activeTab) {
@@ -143,9 +161,19 @@ export default function App() {
           <div 
             className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
             onClick={() => setActiveTab('settings')}
+            style={{ marginTop: 'auto' }}
           >
             <SettingsIcon size={18} />
-            <span>ตั้งค่าการเชื่อมต่อ</span>
+            <span>ตั้งค่าระบบ</span>
+          </div>
+
+          <div 
+            className="nav-item"
+            onClick={handleLogout}
+            style={{ color: '#ef4444', marginTop: '8px' }}
+          >
+            <LogOut size={18} />
+            <span>ออกจากระบบ</span>
           </div>
         </nav>
 

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { FileText, Printer, Search } from 'lucide-react';
 
 const Report301 = () => {
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
   const [items, setItems] = useState([]);
   const [selectedItemName, setSelectedItemName] = useState('');
   const [selectedItemId, setSelectedItemId] = useState('');
@@ -21,7 +22,7 @@ const Report301 = () => {
 
   const fetchItems = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/master-items`);
+      const res = await apiFetch(`/api/inventory/master-items`);
       const data = await res.json();
       setItems(data);
     } catch (err) {
@@ -50,7 +51,7 @@ const Report301 = () => {
     }
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/report301?year=${year}&item_id=${selectedItemId}`);
+      const res = await apiFetch(`/api/inventory/report301?year=${year}&item_id=${selectedItemId}`);
       const data = await res.json();
       if (res.ok) {
         setReportsData([data]);
@@ -67,7 +68,7 @@ const Report301 = () => {
   const fetchAllReports = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/inventory/report301/all?year=${year}`);
+      const res = await apiFetch(`/api/inventory/report301/all?year=${year}`);
       const data = await res.json();
       if (res.ok) {
         setReportsData(data);

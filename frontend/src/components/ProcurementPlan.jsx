@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { Calendar, FileText, Printer, Save, Calculator, Wand2 } from 'lucide-react';
 
 export default function ProcurementPlan() {
@@ -12,12 +13,12 @@ export default function ProcurementPlan() {
   const [percentIncrease, setPercentIncrease] = useState(10);
   const [isSaving, setIsSaving] = useState(false);
 
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
 
   const fetchData = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/api/procurement/plan?year=${selectedYear}`);
+      const res = await apiFetch(`/api/procurement/plan?year=${selectedYear}`);
       const json = await res.json();
       setPastYears(json.years || []);
       
@@ -84,7 +85,7 @@ export default function ProcurementPlan() {
   const handleSave = async () => {
     setIsSaving(true);
     try {
-      const res = await fetch(`${API_BASE}/api/procurement/plan`, {
+      const res = await apiFetch(`/api/procurement/plan`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

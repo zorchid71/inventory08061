@@ -17,21 +17,23 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Import route modules
 const inventoryRouter = require('./routes/inventory');
 const settingsRouter = require('./routes/settings');
 const reportsRouter = require('./routes/reports');
 const procurementRouter = require('./routes/procurement');
 const purchaseRequestsRouter = require('./routes/purchase_requests');
 const requisitionRouter = require('./routes/requisition');
+const authRouter = require('./routes/auth');
+const verifyToken = require('./middleware/auth');
 
 // Mount API routes
-app.use('/api/inventory', inventoryRouter);
-app.use('/api/settings', settingsRouter);
-app.use('/api/reports', reportsRouter);
-app.use('/api/procurement', procurementRouter);
-app.use('/api/purchase_requests', purchaseRequestsRouter);
-app.use('/api/requisitions', requisitionRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/inventory', verifyToken, inventoryRouter);
+app.use('/api/settings', verifyToken, settingsRouter);
+app.use('/api/reports', verifyToken, reportsRouter);
+app.use('/api/procurement', verifyToken, procurementRouter);
+app.use('/api/purchase_requests', verifyToken, purchaseRequestsRouter);
+app.use('/api/requisitions', verifyToken, requisitionRouter);
 
 // Serve static frontend in production (dist folder)
 const distPath = path.join(__dirname, '..', 'frontend', 'dist');
@@ -51,7 +53,8 @@ app.get('/api/health', async (req, res) => {
     status: "ok",
     environment: "local",
     mysql_connected: mysqlConnected,
-    database_mode: mysqlConnected ? "Live HOSxP Database" : "Simulated/Mock Database"
+    database_mode: mysqlConnected ? "Live HOSxP Database" : "Simulated/Mock Database",
+    auth_enabled: true
   });
 });
 

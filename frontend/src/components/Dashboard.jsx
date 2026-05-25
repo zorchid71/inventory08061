@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { apiFetch } from '../utils/api';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { Activity, Users, Baby, AlertTriangle, Sparkles, HeartPulse, FileSpreadsheet, Server, Package, ShoppingCart, TrendingUp } from 'lucide-react';
 
@@ -8,24 +9,24 @@ export default function Dashboard({ setActiveTab }) {
   const [masterItemsCount, setMasterItemsCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const API_BASE = window.location.port === '5173' ? 'http://localhost:5050' : '';
+  
 
   useEffect(() => {
     async function fetchData() {
       try {
         setLoading(true);
         // Fetch API Health status
-        const healthRes = await fetch(`${API_BASE}/api/health`);
+        const healthRes = await apiFetch(`/api/health`);
         const healthJson = await healthRes.json();
         setHealth(healthJson);
 
         // Fetch Inventory trends
-        const trendRes = await fetch(`${API_BASE}/api/inventory/trends`);
+        const trendRes = await apiFetch(`/api/inventory/trends`);
         const trendJson = await trendRes.json();
         setTrendData(trendJson);
 
         // Fetch Master Items
-        const masterRes = await fetch(`${API_BASE}/api/inventory/master-items`);
+        const masterRes = await apiFetch(`/api/inventory/master-items`);
         const masterJson = await masterRes.json();
         setMasterItemsCount(masterJson.length || 0);
 
