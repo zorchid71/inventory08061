@@ -103,7 +103,7 @@ export default function Dashboard({ setActiveTab }) {
           </div>
           <div className="metric-value" style={{ color: '#3b82f6', fontSize: '1.75rem', paddingTop: '6px' }}>
             {latestTrend.total_inventory > 0 
-              ? `฿${latestTrend.total_inventory.toLocaleString(undefined, {maximumFractionDigits: 0})}`
+              ? `฿${latestTrend.total_inventory.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
               : '฿0'
             }
           </div>
@@ -121,7 +121,7 @@ export default function Dashboard({ setActiveTab }) {
           </div>
           <div className="metric-value" style={{ color: '#10b981', fontSize: '1.75rem', paddingTop: '8px' }}>
             {latestTrend.total_received > 0 
-              ? `฿${latestTrend.total_received.toLocaleString(undefined, {maximumFractionDigits: 0})}`
+              ? `฿${latestTrend.total_received.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
               : '฿0'
             }
           </div>
@@ -139,7 +139,7 @@ export default function Dashboard({ setActiveTab }) {
           </div>
           <div className="metric-value" style={{ color: '#f59e0b', fontSize: '1.75rem', paddingTop: '8px' }}>
             {latestTrend.total_dispensed > 0 
-              ? `฿${latestTrend.total_dispensed.toLocaleString(undefined, {maximumFractionDigits: 0})}`
+              ? `฿${latestTrend.total_dispensed.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
               : '฿0'
             }
           </div>
@@ -177,7 +177,7 @@ export default function Dashboard({ setActiveTab }) {
                   <YAxis tickLine={false} axisLine={false} style={{ fontSize: '0.8rem', fill: '#64748b' }} />
                   <Tooltip 
                     contentStyle={{ background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }} 
-                    formatter={(value) => [`฿${value.toLocaleString()}`, '']}
+                    formatter={(value) => [`฿${Number(value).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`, '']}
                   />
                   <Legend iconType="circle" wrapperStyle={{ fontSize: '0.9rem', paddingTop: '10px' }} />
                   <Area name="มูลค่าคลังคงเหลือ" type="monotone" dataKey="total_inventory" stroke="#3b82f6" strokeWidth={2.5} fillOpacity={1} fill="url(#colorInventory)" />

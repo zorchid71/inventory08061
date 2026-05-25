@@ -417,7 +417,7 @@ export default function Inventory() {
             <div className="glass-card metric-card primary" style={{ padding: '20px' }}>
               <span className="metric-title">มูลค่าคลังเวชภัณฑ์คงเหลือ</span>
               <div className="metric-value" style={{ color: '#3b82f6', fontSize: '1.8rem', marginTop: '6px' }}>
-                ฿{totalInventoryValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                ฿{totalInventoryValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
               <span className="metric-sub">คงยอดรวม ณ สิ้นเดือน {selectedMonth}</span>
             </div>
@@ -425,7 +425,7 @@ export default function Inventory() {
             <div className="glass-card metric-card success" style={{ padding: '20px' }}>
               <span className="metric-title">มูลค่าการรับใหม่</span>
               <div className="metric-value" style={{ color: '#10b981', fontSize: '1.8rem', marginTop: '6px' }}>
-                ฿{totalReceivedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                ฿{totalReceivedValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
               <span className="metric-sub">ยอดเวชภัณฑ์ที่นำเข้ามาเพิ่มในคลัง</span>
             </div>
@@ -433,7 +433,7 @@ export default function Inventory() {
             <div className="glass-card metric-card danger" style={{ padding: '20px' }}>
               <span className="metric-title">มูลค่าการจ่ายออก (เบิก)</span>
               <div className="metric-value" style={{ color: '#ef4444', fontSize: '1.8rem', marginTop: '6px' }}>
-                ฿{totalDispensedValue.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                ฿{totalDispensedValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </div>
               <span className="metric-sub">มูลค่าเวชภัณฑ์ที่ถูกนำไปใช้ในบริการ</span>
             </div>
@@ -503,7 +503,7 @@ export default function Inventory() {
                             {row.remaining_qty}
                           </td>
                           <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: '600' }}>
-                            ฿{row.remaining_value.toLocaleString(undefined, { maximumFractionDigits: 1 })}
+                            ฿{Number(row.remaining_value).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                           </td>
                           <td style={{ padding: '12px 16px' }}>
                             <span style={{ fontSize: '0.8rem', color: '#64748b' }}>{row.expiry_date || '-'}</span>
@@ -573,7 +573,7 @@ export default function Inventory() {
                       {monthlyEditForm.beginning_balance + monthlyEditForm.received_qty - monthlyEditForm.dispensed_qty}
                     </span>{' '}
                     หน่วย (มูลค่า ฿
-                    {((monthlyEditForm.beginning_balance + monthlyEditForm.received_qty - monthlyEditForm.dispensed_qty) * monthlyEditForm.unit_price).toLocaleString()}
+                    {((monthlyEditForm.beginning_balance + monthlyEditForm.received_qty - monthlyEditForm.dispensed_qty) * monthlyEditForm.unit_price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     )
                   </div>
 
