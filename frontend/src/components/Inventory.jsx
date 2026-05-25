@@ -495,7 +495,7 @@ export default function Inventory() {
                           </td>
                           <td style={{ padding: '12px 16px' }}>{row.unit}</td>
                           <td style={{ padding: '12px 16px' }}>{row.pack_size}</td>
-                          <td style={{ padding: '12px 16px', textAlign: 'right' }}>฿{row.unit_price}</td>
+                          <td style={{ padding: '12px 16px', textAlign: 'right' }}>฿{Number(row.unit_price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                           <td style={{ padding: '12px 16px', textAlign: 'right' }}>{row.beginning_balance}</td>
                           <td style={{ padding: '12px 16px', textAlign: 'right', color: '#10b981' }}>{row.received_qty}</td>
                           <td style={{ padding: '12px 16px', textAlign: 'right', color: '#ef4444' }}>{row.dispensed_qty}</td>
@@ -668,7 +668,7 @@ export default function Inventory() {
                         </td>
                         <td style={{ padding: '12px 16px' }}>{row.unit || '-'}</td>
                         <td style={{ padding: '12px 16px' }}>{row.pack_size || '-'}</td>
-                        <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: '500' }}>฿{row.unit_price}</td>
+                        <td style={{ padding: '12px 16px', textAlign: 'right', fontWeight: '500' }}>฿{Number(row.unit_price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
                         <td style={{ padding: '12px 16px', textAlign: 'center' }}>
                           {row.expiry_date ? (
                             <span style={{ backgroundColor: '#fee2e2', color: '#ef4444', padding: '2px 8px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: 'bold' }}>
