@@ -1,5 +1,11 @@
 const mysql = require('mysql2/promise');
-const { Pool } = require('pg');
+const pg = require('pg');
+const { Pool } = pg;
+
+// Parse NUMERIC (1700) as floats instead of strings to fix frontend calculation issues
+pg.types.setTypeParser(1700, function(val) {
+  return parseFloat(val);
+});
 const path = require('path');
 const fs = require('fs');
 const iconv = require('iconv-lite');
