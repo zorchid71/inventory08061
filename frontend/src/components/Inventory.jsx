@@ -311,9 +311,9 @@ export default function Inventory() {
   const filteredMonthlyItems = monthlyItems.filter(item => 
     item.name.toLowerCase().includes(monthlySearch.toLowerCase())
   );
-  const totalInventoryValue = filteredMonthlyItems.reduce((sum, item) => sum + (item.remaining_value || 0), 0);
-  const totalReceivedValue = filteredMonthlyItems.reduce((sum, item) => sum + (item.received_value || 0), 0);
-  const totalDispensedValue = filteredMonthlyItems.reduce((sum, item) => sum + (item.dispensed_value || 0), 0);
+  const totalInventoryValue = filteredMonthlyItems.reduce((sum, item) => sum + Number(item.remaining_value || 0), 0);
+  const totalReceivedValue = filteredMonthlyItems.reduce((sum, item) => sum + Number(item.received_value || 0), 0);
+  const totalDispensedValue = filteredMonthlyItems.reduce((sum, item) => sum + Number(item.dispensed_value || 0), 0);
 
   const filteredMasterItems = masterItems.filter(item => 
     item.name.toLowerCase().includes(masterSearch.toLowerCase())

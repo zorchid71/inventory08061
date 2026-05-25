@@ -83,11 +83,11 @@ export default function Reports() {
   };
 
   // Calculate totals for footer
-  const sumBeginning = reportData.reduce((sum, row) => sum + (row.beginning_value || 0), 0);
-  const sumReceived = reportData.reduce((sum, row) => sum + (row.received_value || 0), 0);
-  const sumTotal = reportData.reduce((sum, row) => sum + (row.total_value || 0), 0);
-  const sumDispensed = reportData.reduce((sum, row) => sum + (row.dispensed_value || 0), 0);
-  const sumRemaining = reportData.reduce((sum, row) => sum + (row.remaining_value || 0), 0);
+  const sumBeginning = reportData.reduce((sum, row) => sum + Number(row.beginning_value || 0), 0);
+  const sumReceived = reportData.reduce((sum, row) => sum + Number(row.received_value || 0), 0);
+  const sumTotal = reportData.reduce((sum, row) => sum + Number(row.total_value || 0), 0);
+  const sumDispensed = reportData.reduce((sum, row) => sum + Number(row.dispensed_value || 0), 0);
+  const sumRemaining = reportData.reduce((sum, row) => sum + Number(row.remaining_value || 0), 0);
 
   return (
     <div className="fade-in" style={{ paddingBottom: '40px' }}>

@@ -103,7 +103,7 @@ export default function Dashboard({ setActiveTab }) {
           </div>
           <div className="metric-value" style={{ color: '#3b82f6', fontSize: '1.75rem', paddingTop: '6px' }}>
             {latestTrend.total_inventory > 0 
-              ? `฿${latestTrend.total_inventory.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+              ? `฿${Number(latestTrend.total_inventory).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
               : '฿0'
             }
           </div>
@@ -121,7 +121,7 @@ export default function Dashboard({ setActiveTab }) {
           </div>
           <div className="metric-value" style={{ color: '#10b981', fontSize: '1.75rem', paddingTop: '8px' }}>
             {latestTrend.total_received > 0 
-              ? `฿${latestTrend.total_received.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+              ? `฿${Number(latestTrend.total_received).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
               : '฿0'
             }
           </div>
@@ -139,7 +139,7 @@ export default function Dashboard({ setActiveTab }) {
           </div>
           <div className="metric-value" style={{ color: '#f59e0b', fontSize: '1.75rem', paddingTop: '8px' }}>
             {latestTrend.total_dispensed > 0 
-              ? `฿${latestTrend.total_dispensed.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
+              ? `฿${Number(latestTrend.total_dispensed).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`
               : '฿0'
             }
           </div>

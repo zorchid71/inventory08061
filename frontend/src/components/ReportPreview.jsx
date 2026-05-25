@@ -14,9 +14,9 @@ const ReportPreview = ({ items, month, year, onClose, onExport }) => {
       .catch(err => console.error(err));
   }, []);
   
-  const totalRecvVal = items.reduce((sum, item) => sum + (item.received_value || 0), 0);
-  const totalDispVal = items.reduce((sum, item) => sum + (item.dispensed_value || 0), 0);
-  const totalRemVal = items.reduce((sum, item) => sum + (item.remaining_value || 0), 0);
+  const totalRecvVal = items.reduce((sum, item) => sum + Number(item.received_value || 0), 0);
+  const totalDispVal = items.reduce((sum, item) => sum + Number(item.dispensed_value || 0), 0);
+  const totalRemVal = items.reduce((sum, item) => sum + Number(item.remaining_value || 0), 0);
   const formatVal = (num) => Number(num || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   const formatQty = (num) => Number(num || 0).toLocaleString('en-US');
 
